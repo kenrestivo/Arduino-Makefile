@@ -507,7 +507,7 @@ ECHO    = echo
 
 # General arguments
 SYS_LIBS      = $(patsubst %,$(ARDUINO_LIB_PATH)/%,$(ARDUINO_LIBS))
-USER_LIBS     = $(patsubst %,$(USER_LIB_PATH)/%,$(ARDUINO_LIBS))
+USER_LIBS     = $(patsubst %,$(USER_LIB_PATH)/%,$(ARDUINO_USER_LIBS))
 SYS_INCLUDES  = $(patsubst %,-I%,$(SYS_LIBS))
 USER_INCLUDES = $(patsubst %,-I%,$(USER_LIBS))
 LIB_C_SRCS    = $(wildcard $(patsubst %,%/*.c,$(SYS_LIBS)))
@@ -715,6 +715,12 @@ show_boards:
 monitor:
 		$(MONITOR_CMD) $(ARD_PORT) $(MONITOR_BAUDRATE)
 
-.PHONY:	all clean depends upload raw_upload reset reset_stty size show_boards monitor
+lss: $(OBJDIR)/$(TARGET).lss 
+	cat $<
+	
+sym: $(OBJDIR)/$(TARGET).sym
+	cat $<
+
+.PHONY:	all clean depends upload raw_upload reset reset_stty size show_boards monitor lss
 
 include $(DEP_FILE)
